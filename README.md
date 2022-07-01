@@ -1,3 +1,5 @@
+# THIS IS A WORK IN PROGRESS
+
 # lazygit.nvim
 
 Plugin for calling [lazygit](https://github.com/jesseduffield/lazygit) from within neovim.
