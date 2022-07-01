@@ -3,16 +3,16 @@ local api = vim.api
 
 --- open floating window with nice borders
 local function open_floating_window()
-  local floating_window_scaling_factor = vim.g.lazygit_floating_window_scaling_factor
+  local floating_window_scaling_factor = vim.g.gitui_floating_window_scaling_factor
 
   -- Why is this required?
-  -- vim.g.lazygit_floating_window_scaling_factor returns different types if the value is an integer or float
+  -- vim.g.gitui_floating_window_scaling_factor returns different types if the value is an integer or float
   if type(floating_window_scaling_factor) == 'table' then
     floating_window_scaling_factor = floating_window_scaling_factor[false]
   end
 
   local status, plenary = pcall(require, 'plenary.window.float')
-  if status and vim.g.lazygit_floating_window_use_plenary and vim.g.lazygit_floating_window_use_plenary ~= 0 then
+  if status and vim.g.gitui_floating_window_use_plenary and vim.g.gitui_floating_window_use_plenary ~= 0 then
     plenary.percentage_range_window(floating_window_scaling_factor, floating_window_scaling_factor)
     return
   end
@@ -35,7 +35,7 @@ local function open_floating_window()
   local opts = { style = 'minimal', relative = 'editor', row = row, col = col, width = width, height = height }
 
   local topleft, topright, botleft, botright
-  local corner_chars = vim.g.lazygit_floating_window_corner_chars
+  local corner_chars = vim.g.gitui_floating_window_corner_chars
   if type(corner_chars) == 'table' and #corner_chars == 4 then
     topleft, topright, botleft, botright = unpack(corner_chars)
   else
@@ -59,19 +59,19 @@ local function open_floating_window()
   vim.cmd('set winhl=Normal:Floating')
 
   -- create a unlisted scratch buffer
-  if LAZYGIT_BUFFER == nil or vim.fn.bufwinnr(LAZYGIT_BUFFER) == -1 then
-    LAZYGIT_BUFFER = api.nvim_create_buf(false, true)
+  if GITUI_BUFFER == nil or vim.fn.bufwinnr(GITUI_BUFFER) == -1 then
+    GITUI_BUFFER = api.nvim_create_buf(false, true)
   else
-    LAZYGIT_LOADED = true
+    GITUI_LOADED = true
   end
   -- create file window, enter the window, and use the options defined in opts
-  local _ = api.nvim_open_win(LAZYGIT_BUFFER, true, opts)
+  local _ = api.nvim_open_win(GITUI_BUFFER, true, opts)
 
-  vim.bo[LAZYGIT_BUFFER].filetype = 'lazygit'
+  vim.bo[GITUI_BUFFER].filetype = 'gitui'
 
   vim.cmd('setlocal bufhidden=hide')
   vim.cmd('setlocal nocursorcolumn')
-  vim.cmd('set winblend=' .. vim.g.lazygit_floating_window_winblend)
+  vim.cmd('set winblend=' .. vim.g.gitui_floating_window_winblend)
 
   -- use autocommand to ensure that the border_buffer closes at the same time as the main buffer
   local cmd = [[autocmd WinLeave <buffer> silent! execute 'hide']]

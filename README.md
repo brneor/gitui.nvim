@@ -1,10 +1,9 @@
 # THIS IS A WORK IN PROGRESS
 
-# lazygit.nvim
+This is a fork from [lazygit.nvim](https://github.com/kdheepak/lazygit.nvim).
+# gitui.nvim
 
-Plugin for calling [lazygit](https://github.com/jesseduffield/lazygit) from within neovim.
-
-![](https://user-images.githubusercontent.com/1813121/87866391-79fcfe00-c93e-11ea-94a9-204947de1b39.gif)
+Plugin for calling [gitui](https://github.com/extrawurst/gitui) from within neovim.
 
 See [akinsho/nvim-toggleterm](https://github.com/akinsho/nvim-toggleterm.lua#custom-terminals) or [voldikss/vim-floaterm](https://github.com/voldikss/vim-floaterm) as an alternative to this package.
 
@@ -14,64 +13,55 @@ Install using [`vim-plug`](https://github.com/junegunn/vim-plug):
 
 ```vim
 " nvim v0.5.0
-Plug 'kdheepak/lazygit.nvim'
+Plug 'brneor/gitui.nvim'
 ```
 
 Feel free to use any plugin manager.
-Just remember that if you are not using the latest neovim release, you will need to use [the `nvim-v0.4.3` branch](https://github.com/kdheepak/lazygit.vim/tree/nvim-v0.4.3).
-Integration with `nvr` works better on the `main` branch.
-
-You can check what version of `neovim` you have:
-
-```bash
-nvim --version
-```
-
 ### Usage
 
 The following are configuration options and their defaults.
 
 ```vim
-let g:lazygit_floating_window_winblend = 0 " transparency of floating window
-let g:lazygit_floating_window_scaling_factor = 0.9 " scaling factor for floating window
-let g:lazygit_floating_window_corner_chars = ['╭', '╮', '╰', '╯'] " customize lazygit popup window corner characters
-let g:lazygit_floating_window_use_plenary = 0 " use plenary.nvim to manage floating window if available
-let g:lazygit_use_neovim_remote = 1 " fallback to 0 if neovim-remote is not installed
+let g:gitui_floating_window_winblend = 0 " transparency of floating window
+let g:gitui_floating_window_scaling_factor = 0.9 " scaling factor for floating window
+let g:gitui_floating_window_corner_chars = ['╭', '╮', '╰', '╯'] " customize gitui popup window corner characters
+let g:gitui_floating_window_use_plenary = 0 " use plenary.nvim to manage floating window if available
+let g:gitui_use_neovim_remote = 1 " fallback to 0 if neovim-remote is not installed
 ```
 
-Call `:LazyGit` to start a floating window with `lazygit`.
-And set up a mapping to call `:LazyGit`:
+Call `:GitUi` to start a floating window with `gitui`.
+And set up a mapping to call `:GitUi`:
 
 ```vim
-" setup mapping to call :LazyGit
-nnoremap <silent> <leader>gg :LazyGit<CR>
+" setup mapping to call :GitUi
+nnoremap <silent> <leader>gg :GitUi<CR>
 ```
 
-Open the configuration file for `lazygit` directly from vim.
+Open the configuration file for `gitui` directly from vim.
 
 ```vim
-:LazyGitConfig<CR>
+:GitUiConfig<CR>
 ```
 
 If the file does not exist it'll load the defaults for you.
 
 ![](https://user-images.githubusercontent.com/1813121/78830902-46721580-79d8-11ea-8809-291b346b6c42.gif)
 
-Open project commits with `lazygit` directly from vim in floating window.
+Open project commits with `gitui` directly from vim in floating window.
 
 ```vim
-:LazyGitFilter<CR>
+:GitUiFilter<CR>
 ```
 
-Open buffer commits with `lazygit` directly from vim in floating window.
+Open buffer commits with `gitui` directly from vim in floating window.
 
 ```vim
-:LazyGitFilterCurrentFile<CR>
+:GitUiFilterCurrentFile<CR>
 ```
 
 **Using neovim-remote**
 
-If you have [neovim-remote](https://github.com/mhinz/neovim-remote) and have configured to use it in neovim, it'll launch the commit editor inside your neovim instance when you use `C` inside `lazygit`.
+If you have [neovim-remote](https://github.com/mhinz/neovim-remote) and have configured to use it in neovim, it'll launch the commit editor inside your neovim instance when you use `C` inside `gitui`.
 
 1. `pip install neovim-remote`
 
@@ -103,17 +93,17 @@ if has('nvim') && executable('nvr')
 endif
 ```
 
-If you have `neovim-remote` and don't want `lazygit.nvim` to use it, you can disable it using the following configuration option:
+If you have `neovim-remote` and don't want `gitui.nvim` to use it, you can disable it using the following configuration option:
 
 ```vim
-let g:lazygit_use_neovim_remote = 0
+let g:gitui_use_neovim_remote = 0
 ```
 
 ### Telescope Plugin
 
 The Telescope plugin is used to track all git repository visited in one nvim session.
 
-![lazygittelplugin](https://user-images.githubusercontent.com/10464534/156933468-c89abee4-6afb-457c-8b02-55b67913aef2.png)
+![gituitelplugin](https://user-images.githubusercontent.com/10464534/156933468-c89abee4-6afb-457c-8b02-55b67913aef2.png)
 (background image is not included :smirk:)
 
 **Why a telescope Plugin** ?
@@ -124,10 +114,10 @@ Though switching between submodules and main repo is not straight forward.
 A solution at first could be:
 
 1. open a file inside the submodule
-2. open lazygit
+2. open gitui
 3. do commit
 4. then open a file in the main repo
-5. open lazygit
+5. open gitui
 6. do commit
 
 That is really annoying.
@@ -140,26 +130,26 @@ Install the plugin using:
 ```
 use({
     "nvim-telescope/telescope.nvim",
-    requires = { { "nvim-lua/plenary.nvim" }, { "kdheepak/lazygit.nvim" } },
+    requires = { { "nvim-lua/plenary.nvim" }, { "brneor/gitui.nvim" } },
     config = function()
-        require("telescope").load_extension("lazygit")
+        require("telescope").load_extension("gitui")
     end,
 })
 ```
 
-Lazy loading `lazygit.nvim` for telescope functionality is not supported. Open an issue if you wish to have this feature.
+Lazy loading `gitui.nvim` for telescope functionality is not supported. Open an issue if you wish to have this feature.
 
 If you are not using Packer, to load the telescope extension, you have to add this line to your configuration:
 
 ```lua
-require('telescope').load_extension('lazygit')
+require('telescope').load_extension('gitui')
 ```
 
-By default the paths of each repo is stored only when lazygit is triggered.
+By default the paths of each repo is stored only when gitui is triggered.
 Though, this may not be convenient, so it possible to do something like this:
 
 ```vim
-autocmd BufEnter * :lua require('lazygit.utils').project_root_dir()
+autocmd BufEnter * :lua require('gitui.utils').project_root_dir()
 ```
 
 That makes sure that any opened buffer which is contained in a git repo will be tracked.
@@ -167,5 +157,5 @@ That makes sure that any opened buffer which is contained in a git repo will be 
 Once you have loaded the extension, you can invoke the plugin using:
 
 ```lua
-lua require("telescope").extensions.lazygit.lazygit()
+lua require("telescope").extensions.gitui.gitui()
 ```

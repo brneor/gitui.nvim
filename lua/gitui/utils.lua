@@ -1,7 +1,7 @@
 local fn = vim.fn
 
 -- store all git repositories visited in this session
-local lazygit_visited_git_repos = {}
+local gitui_visited_git_repos = {}
 
 -- TODO:check if the repo isa git repo
 local function append_git_repo_path(repo_path)
@@ -9,13 +9,13 @@ local function append_git_repo_path(repo_path)
     return
   end
 
-  for _, path in ipairs(lazygit_visited_git_repos) do
+  for _, path in ipairs(gitui_visited_git_repos) do
     if path == repo_path then
       return
     end
   end
 
-  table.insert(lazygit_visited_git_repos, tostring(repo_path))
+  table.insert(gitui_visited_git_repos, tostring(repo_path))
 end
 
 
@@ -81,9 +81,9 @@ local function project_root_dir()
   return repo_path
 end
 
---- Check if lazygit is available
-local function is_lazygit_available()
-  return fn.executable('lazygit') == 1
+--- Check if gitui is available
+local function is_gitui_available()
+  return fn.executable('gitui') == 1
 end
 
 local function is_symlink()
@@ -95,7 +95,7 @@ end
 return {
   get_root = get_root,
   project_root_dir = project_root_dir,
-  lazygit_visited_git_repos = lazygit_visited_git_repos,
-  is_lazygit_available = is_lazygit_available,
+  gitui_visited_git_repos = gitui_visited_git_repos,
+  is_gitui_available = is_gitui_available,
   is_symlink = is_symlink,
 }

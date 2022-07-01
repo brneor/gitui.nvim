@@ -3,14 +3,14 @@ local finders = require("telescope.finders")
 local action_set = require("telescope.actions.set")
 local action_state = require("telescope.actions.state")
 local conf = require("telescope.config").values
-local lazygit_utils = require("lazygit.utils")
+local gitui_utils = require("gitui.utils")
 
 
-local function open_lazygit(prompt_buf)
+local function open_gitui(prompt_buf)
     local entry = action_state.get_selected_entry()
     vim.fn.execute('cd ' .. entry.value)
 
-    local cmd = [[lua require"lazygit".lazygit(nil)]]
+    local cmd = [[lua require"gitui".gitui(nil)]]
     vim.api.nvim_command(cmd)
 
     vim.cmd('stopinsert')
@@ -20,7 +20,7 @@ local function open_lazygit(prompt_buf)
 end
 
 
-local lazygit_repos = function(opts)
+local gitui_repos = function(opts)
     local displayer = require("telescope.pickers.entry_display").create {
         separator = "",
         -- TODO: make use of telescope geometry
@@ -32,7 +32,7 @@ local lazygit_repos = function(opts)
     }
 
     local repos = {}
-    for _, v in pairs(lazygit_utils.lazygit_visited_git_repos) do
+    for _, v in pairs(gitui_utils.gitui_visited_git_repos) do
         if v == nil then
             goto skip
         end
@@ -52,7 +52,7 @@ local lazygit_repos = function(opts)
     end
 
     pickers.new(opts or {}, {
-        prompt_title = "lazygit repos",
+        prompt_title = "gitui repos",
         finder = finders.new_table {
             results = repos,
             entry_maker = function(entry)
@@ -73,7 +73,7 @@ local lazygit_repos = function(opts)
         },
         sorter = conf.generic_sorter(opts),
         attach_mappings = function(_, _)
-            action_set.select:replace(open_lazygit)
+            action_set.select:replace(open_gitui)
             return true
         end
     }):find()
@@ -81,6 +81,6 @@ end
 
 return require("telescope").register_extension({
     exports = {
-        lazygit = lazygit_repos,
+        gitui = gitui_repos,
     }
 })
